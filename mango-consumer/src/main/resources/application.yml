@@ -1,0 +1,37 @@
+server:
+  port: 8006
+spring:
+  application:
+    name: mango-consumer
+  boot:
+    admin:
+      client:
+#        url: "http://localhost:8000"
+        instance:
+          service-base-url: "http://localhost:8000"
+  zipkin:
+    base-url: http://192.168.99.100:9411/
+  sleuth:
+    sampler:
+      probability: 1 #样本采集量，默认为0.1，为了测试这里修改为1，正式环境一般使用默认值。
+# 开放健康检查接口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+#--负载均衡策略配置,默认轮询--
+#服务提供者的服务名:
+# ribbon:
+#   策略
+#mango-producer:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+# 开启熔断器
+feign:
+  hystrix:
+    enabled: true

@@ -1,0 +1,30 @@
+server:
+  port: 8020
+spring:
+  application:
+    name: mango-config
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+    config:
+      label: master  # git仓库分支
+      server:
+        git:
+          uri: https://github.com/54Lanedy/mango-platform.git  # 配置git仓库的地址
+          search-paths: config-repo  # git仓库地址下的相对地址，可以配置多个，用,分割。
+          username: liyuelanedy@gmail.com # git仓库的账号
+          password: lyliyue9527.0         # git仓库的密码
+  rabbitmq:
+    host: 192.168.99.100
+    port: 5672
+    username: guest
+    password: guest
+# 开放健康监控接口，“*”全部
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

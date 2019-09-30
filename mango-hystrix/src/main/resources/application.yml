@@ -1,0 +1,17 @@
+server:
+  port: 8501
+spring:
+  application:
+    name: mango-hystrix
+  #\u5C06\u670D\u52A1\u6CE8\u518C\u5230\u6CE8\u518C\u4E2D\u5FC3
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+turbine:
+  instanceUrlSuffix: hystrix.stream    # \u6307\u5B9A\u6536\u96C6\u8DEF\u5F84
+  appConfig: mango-consumer    # \u6307\u5B9A\u4E86\u9700\u8981\u6536\u96C6\u76D1\u63A7\u4FE1\u606F\u7684\u670D\u52A1\u540D\uFF0C\u591A\u4E2A\u4EE5\u201C,\u201D\u8FDB\u884C\u533A\u5206
+  clusterNameExpression: "'default'"    # \u6307\u5B9A\u96C6\u7FA4\u540D\u79F0,\u82E5\u4E3Adefault\u5219\u4E3A\u9ED8\u8BA4\u96C6\u7FA4\uFF0C\u591A\u4E2A\u96C6\u7FA4\u5219\u901A\u8FC7\u6B64\u914D\u7F6E\u533A\u5206
+  combine-host-port: true     # \u6B64\u914D\u7F6E\u9ED8\u8BA4\u4E3Afalse\uFF0C\u5219\u670D\u52A1\u662F\u4EE5host\u8FDB\u884C\u533A\u5206\uFF0C\u82E5\u8BBE\u7F6E\u4E3Atrue\u5219\u4EE5host+port\u8FDB\u884C\u533A\u5206

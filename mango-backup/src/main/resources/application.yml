@@ -1,0 +1,35 @@
+# tomcat
+server:
+  port: 8002
+spring:
+  application:
+    name: mango-backup
+#项目监控客户端
+  boot:
+    admin:
+      client:
+        url: "http://localhost:8000"
+#将此项目作为服务注册到注册中心
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name} # 注册到consul的服务名称
+# backup datasource
+mango:
+  backup:
+    datasource:
+      host: localhost
+      userName: root
+      password: root
+      database: mango
+#项目监控开放接口，”*“表示全部开放
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

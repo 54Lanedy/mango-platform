@@ -1,0 +1,88 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: mango-admin
+#项目监控客户端
+  boot:
+    admin:
+      client:
+        url: "http://localhost:8000"
+#将此项目作为服务注册到注册中心
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name} # 注册到consul的服务名称
+  datasource:
+    name: druidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mango?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      max-active: 100
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      #检测并关闭空闲连接的时间吗，单位毫秒
+      time-between-eviction-runs-millis: 60000
+      #一个连接在池中最小生存时间，单位毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x' FROM DUAL
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 50
+      max-pool-prepared-statement-per-connection-size: 20
+#      filters: stat,wall,log4j,config
+      # 状态监控
+      filter:
+        stat:
+          enabled: true
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        wall:
+          enabled: true
+          db-type: mysql
+          config:
+            delete-allow: false
+            drop-table-allow: false
+      # 监控过滤器
+      web-stat-filter:
+        enabled: true
+        exclusions:
+        - "*.js"
+        - "*.gif"
+        - "*.jpg"
+        - "*.png"
+        - "*.css"
+        - "*.ico"
+        - "/druid/*"
+      # druid 监控页面
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: false
+        login-username: admin
+        login-password: admin
+#pagehelper分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+#项目监控开放接口，”*“表示全部开放
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

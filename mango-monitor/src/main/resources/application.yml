@@ -1,0 +1,21 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: mango-monitor
+#将此项目作为服务注册到注册中心
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name} # 注册到consul的服务名称
+# 开放健康检查接口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

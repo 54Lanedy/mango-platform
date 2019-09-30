@@ -1,0 +1,23 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: mango-zuul
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+#\u9ED8\u8BA4\u8DEF\u7531\u914D\u7F6E\uFF1Ahttp://ZUUL_HOST:ZUUL_PORT/\u5FAE\u670D\u52A1\u5728\u6CE8\u518C\u4E2D\u5FC3\u7684serviceId/**\u4F1A\u88AB\u8F6C\u53D1\u5230serviceId\u5BF9\u5E94\u7684\u5FAE\u670D\u52A1\u3002
+#\u9075\u5FAA\u9ED8\u8BA4\u7684\u8DEF\u7531\u89C4\u5219\uFF0C\u57FA\u672C\u4E0A\u5C31\u6CA1\u4EC0\u4E48\u914D\u7F6E\u4E86\u3002\u6BD4\u5982\uFF1Ahttp://localhost:8010/mango-consumer/feign/call
+#\u4E0B\u9762\u662F\u7ED9\u6BCF\u4E2A\u5FAE\u670D\u52A1\u5B9A\u4E49\u8DEF\u7531\u89C4\u5219\uFF1A
+#zuul:
+  #prefix: /v1 # \u7ED9\u6BCF\u4E2A\u670D\u52A1\u7684API\u63A5\u53E3\u52A0\u4E0A\u4E00\u4E2A\u524D\u7F00 http://localhost:8010/v1/feign/call
+#  routes:
+#    ribbon:
+#      path: /ribbon/**
+#      serviceId: mango-consumer  # \u8F6C\u53D1\u5230\u6D88\u8D39\u8005 /ribbon/
+#    feign:
+#      path: /feign/**
+#      serviceId: mango-consumer  # \u8F6C\u53D1\u5230\u6D88\u8D39\u8005 /feign/

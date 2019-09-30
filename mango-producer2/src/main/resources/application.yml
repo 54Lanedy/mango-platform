@@ -1,0 +1,26 @@
+server:
+  port: 8004
+spring:
+  application:
+    name: mango-producer
+#注册此项目到consul注册中心
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name} #注册到consul的服务名称
+#对此项目进行服务监控
+  boot:
+    admin:
+      client:
+        url: "http://localhost:8000"
+#开放健康检查接口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
