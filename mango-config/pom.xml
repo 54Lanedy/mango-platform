@@ -38,7 +38,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
         </dependency>
-        <!--actuator 健康检查、审计、统计和监控-->
+        <!--actuator 感应服务端变化,健康检查、审计、统计和监控等-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>

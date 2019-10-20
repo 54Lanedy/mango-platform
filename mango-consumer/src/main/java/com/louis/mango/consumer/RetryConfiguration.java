@@ -6,6 +6,8 @@ import org.springframework.retry.interceptor.RetryInterceptorBuilder;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 
 /**
+ * 自定义拦截器解决异常（consul作为注册中心时）：NoSuchBeanDefinitionException:No bean named 'configServerRetryInterceptor' available
+ * 原因：缺少拦截器
  * Created by liyue
  * Time 2019-09-27 14:51
  */
