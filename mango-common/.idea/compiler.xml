@@ -2,12 +2,36 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mango-common" />
+        <module name="mango-admin" />
+        <module name="mango-hystrix" />
+        <module name="mango-core" />
+        <module name="mango-consumer" />
+        <module name="mango-backup" />
+        <module name="mango-producer" />
+        <module name="mango-config" />
+        <module name="mango-monitor" />
+        <module name="mango-zuul" />
+        <module name="mango-producer2" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mango-admin" options="-parameters" />
+      <module name="mango-backup" options="-parameters" />
+      <module name="mango-config" options="-parameters" />
+      <module name="mango-consumer" options="-parameters" />
+      <module name="mango-hystrix" options="-parameters" />
+      <module name="mango-monitor" options="-parameters" />
+      <module name="mango-producer" options="-parameters" />
+      <module name="mango-producer2" options="-parameters" />
+      <module name="mango-zuul" options="-parameters" />
+    </option>
   </component>
 </project>

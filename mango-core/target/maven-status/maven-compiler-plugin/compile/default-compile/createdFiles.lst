@@ -1,0 +1,7 @@
+com\louis\mango\core\http\HttpResult.class
+com\louis\App.class
+com\louis\mango\core\vo\LoginBean.class
+com\louis\mango\core\page\PageRequest.class
+com\louis\mango\core\service\CurdService.class
+com\louis\mango\core\page\MybatisPageHelper.class
+com\louis\mango\core\page\PageResult.class
