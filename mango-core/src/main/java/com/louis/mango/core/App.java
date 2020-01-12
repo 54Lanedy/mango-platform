@@ -1,4 +1,4 @@
-package com.louis;
+package com.louis.mango.core;
 
 /**
  * Hello world!
