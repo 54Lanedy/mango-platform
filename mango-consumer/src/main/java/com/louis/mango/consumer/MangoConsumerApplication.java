@@ -8,11 +8,14 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-//开启扫描spring cloud feign客户端的功能
+//开启扫描spring cloud feign客户端的功能,feign:声明式服务调用
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
+@RestController
 public class MangoConsumerApplication {
 
     public static void main(String[] args) {
@@ -40,6 +43,11 @@ public class MangoConsumerApplication {
         registrationBean.addUrlMappings("/hystrix.stream");
         registrationBean.setName("HystrixMetricsStreamServlet");
         return registrationBean;
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "hello";
     }
 
 }

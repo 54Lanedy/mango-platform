@@ -1,0 +1,7 @@
+熔断监控查看：查看默认集群使用第一个url,查看指定集群使用第二个url,单个应用的监控使用最后一个
+Cluster via Turbine (default cluster): http://turbine-hostname:port/turbine.stream
+Cluster via Turbine (custom cluster): http://turbine-hostname:port/turbine.stream?cluster=[clusterName]
+Single Hystrix App: http://hystrix-app:port/hystrix.stream
+
+hystrix-app：消费者IP
+turbine-hostname：熔断服务的IP
