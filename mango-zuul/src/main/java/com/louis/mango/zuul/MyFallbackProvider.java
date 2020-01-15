@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 实现路由熔断功能
+ * 实现路由熔断功能,getRoute() -> 指定路由配置回退,若为所有路由提供默认回退：return "*"
+ * @Description: 用于定制FallBack返回的body、状态码、消息头Header
  * Created by liyue
  * Time 2019-09-25 16:56
  */

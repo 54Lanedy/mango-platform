@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
-@RestController
 public class MangoConsumerApplication {
 
     public static void main(String[] args) {
@@ -43,11 +42,6 @@ public class MangoConsumerApplication {
         registrationBean.addUrlMappings("/hystrix.stream");
         registrationBean.setName("HystrixMetricsStreamServlet");
         return registrationBean;
-    }
-
-    @GetMapping("/test")
-    public String test(){
-        return "hello";
     }
 
 }

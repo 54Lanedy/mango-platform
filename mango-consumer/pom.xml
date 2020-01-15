@@ -60,7 +60,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
         </dependency>
-        <!-- feign服务消费（声明式服务调用客户端）-->
+        <!-- feign服务消费（声明式服务调用客户端，负载均衡，已包含ribbon）-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>

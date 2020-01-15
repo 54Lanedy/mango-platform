@@ -15,6 +15,6 @@ public class MangoProducerHystrix implements MangoProducerService {
     @RequestMapping("/hello")
     public String hello() {
 
-        return "sorry, hello service call failed";
+        return "sorry, hello service call failed —— 熔断器Hystrix";
     }
 }

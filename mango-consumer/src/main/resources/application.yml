@@ -8,8 +8,14 @@ spring:
       client:
         instance:
           service-base-url: "http://localhost:8000"
+  #实现链路追踪
   zipkin:
-    base-url: http://localhost:9411/
+    base-url: http://192.168.99.100:9411/
+    # spring-cloud-starter-bus-amqp 中包含了 spring-rabbit的全部组件。
+    #在引入 spring-cloud-starter-zipkin 后，默认与zipkin通信使用的是 http的方式。
+    #同时引入 spring-rabbit后，与zipkin通信会变成使用rabbitmq。
+    sender:
+      type: web #配置zipkin通信方式为http。此配置主要解决zipkin和spring cloud bus冲突问题。
   sleuth:
     sampler:
       probability: 1 #样本采集量，默认为0.1，为了测试这里修改为1，正式环境一般使用默认值0.1。

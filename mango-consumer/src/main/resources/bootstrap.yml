@@ -12,6 +12,14 @@ spring:
       name: consumer # 对应{application}部分
       profile: dev # 对应{profile}部分
       label: master # 对应git的分支，如果配置中心使用的是本地存储，则该参数无用
+      #默认false，是否启动快速失败功能，功能开启则优先判断config server是否正常，在获取不到远程配置时，立即失败，但是用下边的[retry]配置进行重试(粗粒度)，
+      #也可以用RetryConfiguration类实现细粒度重试机制（使用中）
+#      fail-fast: true
+#      retry:
+#        initial-interval: 1000 #最初重试间隔为 1000 毫秒
+#        max-attempts: 10       #最多重试 10 次
+#        max-interval: 5000     #最长重试间隔为 5000 毫秒
+#        multiplier: 1.2        #每次重试失败后，重试间隔所增加的倍数
   rabbitmq:
     host: 192.168.99.100
     port: 5672

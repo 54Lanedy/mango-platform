@@ -1,1 +1,2 @@
+# 指定RetryConfiguration类为启动时的配置，以在获取远程配置之前生效
 org.springframework.cloud.bootstrap.BootstrapConfiguration=com.louis.mango.consumer.RetryConfiguration

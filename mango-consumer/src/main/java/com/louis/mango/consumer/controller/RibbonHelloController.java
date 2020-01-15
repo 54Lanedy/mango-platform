@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * 使用RestTemplate模板实现负载均衡
+ * 使用RestTemplate模板实现负载均衡，与feign均属于负载均衡。
+ * 
+ * ribbon需要自己构建http请求，模拟http请求然后使用RestTemplate发送给其他服务，步骤相当繁琐
  * Created by liyue
  * Time 2019-09-25 11:01
  */
