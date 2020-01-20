@@ -1,4 +1,4 @@
-package com.louis.mango.config;
+package com.louis.mango.backup.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

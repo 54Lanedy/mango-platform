@@ -1,4 +1,4 @@
-package com.louis.mango.config;
+package com.louis.mango.backup.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

@@ -40,7 +40,7 @@ spring:
       pool-prepared-statements: true
       max-open-prepared-statements: 50
       max-pool-prepared-statement-per-connection-size: 20
-#      filters: stat,wall,log4j,config
+      filters: stat,wall,log4j,config
       # 状态监控
       filter:
         stat:

@@ -62,6 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/actuator/**").permitAll()
             //其他所有请求需要身份认证
             .anyRequest().authenticated();
+        //Spring Security默认时不允许页面被嵌套的，所以X-Frame-Options默认为DENY，设置disable禁用默认值
+        http.headers().frameOptions().disable();
         //退出处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
         //开启登录认证流程过滤器，如果使用LoginController的login接口, 需要注释掉此过滤器，根据使用习惯二选一即可

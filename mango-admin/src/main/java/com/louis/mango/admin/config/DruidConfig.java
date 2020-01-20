@@ -1,4 +1,4 @@
-//package com.louis.mango.config;
+//package com.louis.mango.admin.config;
 //
 //import com.alibaba.druid.pool.DruidDataSource;
 //import com.alibaba.druid.support.http.StatViewServlet;
@@ -17,12 +17,12 @@
 //import javax.servlet.Servlet;
 //import javax.sql.DataSource;
 //
-/**
- * druid的配置类，主要是注入属性和配置连接池相关的配置，如白名单、监控管理后台的账号和密码等
- * Created by liyue
- * Time 2019-09-16 9:13
- * 因新版druid配置方式有变，DruidConfig已弃用，配置在application.yml中实现
- */
+///**
+// * druid的配置类，主要是注入属性和配置连接池相关的配置，如白名单、监控管理后台的账号和密码等
+// * Created by liyue
+// * Time 2019-09-16 9:13
+// * 因新版druid配置方式有变，DruidConfig已弃用，配置在application.yml中实现
+// */
 //@Configuration
 //public class DruidConfig {
 //
@@ -56,12 +56,12 @@
 //    public FilterRegistrationBean<Filter> filterFilterRegistrationBean(){
 //        FilterRegistrationBean<Filter> filterRegistrationBean=new FilterRegistrationBean<>();
 //        //注册逻辑start
-////        filterRegistrationBean.addInitParameter("exclusions","*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*");
-////        filterRegistrationBean.addUrlPatterns("/*");
-////        String errUrl = "login.html";
-////        filterRegistrationBean.addUrlPatterns("/*");
-////        filterRegistrationBean.addInitParameter("ERR_URL", errUrl);
-////        filterRegistrationBean.setName("WebAccessAuthorizeFilterMvc");
+//        filterRegistrationBean.addInitParameter("exclusions","*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*");
+//        filterRegistrationBean.addUrlPatterns("/*");
+//        String errUrl = "login.html";
+//        filterRegistrationBean.addUrlPatterns("/*");
+//        filterRegistrationBean.addInitParameter("ERR_URL", errUrl);
+//        filterRegistrationBean.setName("WebAccessAuthorizeFilterMvc");
 //        filterRegistrationBean.setFilter(errorPageFilter());
 //        //注册逻辑end
 //        return filterRegistrationBean;
