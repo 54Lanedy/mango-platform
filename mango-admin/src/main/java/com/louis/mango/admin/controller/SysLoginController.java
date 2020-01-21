@@ -4,8 +4,9 @@ import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.louis.mango.admin.model.SysUser;
 import com.louis.mango.admin.security.JwtAuthenticationToken;
-import com.louis.mango.admin.security.SecurityUtils;
+import com.louis.mango.admin.util.SecurityUtils;
 import com.louis.mango.admin.service.SysUserService;
+import com.louis.mango.admin.util.PasswordUtils;
 import com.louis.mango.core.http.HttpResult;
 import com.louis.mango.core.vo.LoginBean;
 import org.apache.poi.util.IOUtils;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import sun.security.util.Password;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -44,25 +44,29 @@ public class SysLoginController {
         String username = loginBean.getAccount();
         String password = loginBean.getPassword();
         String captcha = loginBean.getCaptcha();
-        //从session中获取之前保存的验证码，跟前台传过来的验证码进行匹配
+        // 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
         Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-        if (kaptcha == null) {
-            return HttpResult.error("验证码已失效");
-        }
-        if (!captcha.equals(kaptcha)) {
-            return HttpResult.error("验证码不正确");
-        }
+        //TODO session已改变，待开发其他验证方式
+//        if(kaptcha == null){
+//            return HttpResult.error("验证码已失效");
+//        }
+//        if(!captcha.equals(kaptcha)){
+//            return HttpResult.error("验证码不正确");
+//        }
+        // 用户信息
         SysUser user = sysUserService.findByName(username);
-        //账号不存在，密码错误
-        if (user==null) {
+        // 账号不存在、密码错误
+        if (user == null) {
             return HttpResult.error("账号不存在");
         }
-//        PasswordUtils
-
-//        if (user.getStatus()==0) {
-//            return HttpResult.error("账号已被锁定，请联系管理员");
-//        }
-
+        if (!PasswordUtils.matches(user.getSalt(), password, user.getPassword())) {
+            return HttpResult.error("密码不正确");
+        }
+        // 账号锁定
+        if (user.getStatus() == 0) {
+            return HttpResult.error("账号已被锁定,请联系管理员");
+        }
+        // 系统登录认证
         JwtAuthenticationToken token = SecurityUtils.login(request, username, password, authenticationManager);
         return HttpResult.ok(token);
     }

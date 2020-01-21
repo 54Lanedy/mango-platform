@@ -13,7 +13,7 @@
 	<version>1.0.0</version>
     <packaging>jar</packaging>
 	<name>mango-admin</name>
-	<description>Spring Boot+SpringCloud+vue+Element权限管理系统</description>
+	<description>后台管理模块，包含用户、角色、菜单管理等</description>
 
 	<properties>
 		<java.version>1.8</java.version>

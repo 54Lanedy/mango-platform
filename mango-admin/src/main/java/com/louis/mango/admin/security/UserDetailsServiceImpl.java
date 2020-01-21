@@ -34,6 +34,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<String> permissions = sysUserService.findPermissions(user.getName());
         List<GrantedAuthority> grantedAuthorities=  permissions.stream()
                 .map(GrantedAuthorityImpl::new).collect(Collectors.toList());
-        return new JwtUserDetails(user.getName(),user.getPassword(),grantedAuthorities);
+        return new JwtUserDetails(user.getName(),user.getPassword(),user.getSalt(),grantedAuthorities);
     }
 }

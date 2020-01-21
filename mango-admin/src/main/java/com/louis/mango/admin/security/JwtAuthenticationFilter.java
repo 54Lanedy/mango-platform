@@ -1,5 +1,7 @@
 package com.louis.mango.admin.security;
 
+import com.louis.mango.admin.util.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -16,6 +18,7 @@ import java.io.IOException;
  */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
+    @Autowired
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }

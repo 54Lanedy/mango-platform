@@ -1,5 +1,6 @@
-package com.louis.mango.admin.security;
+package com.louis.mango.admin.util;
 
+import com.louis.mango.admin.security.JwtAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,7 @@ public class SecurityUtils {
      */
     public static void checkAuthentication(HttpServletRequest request) {
         //获取令牌并根据令牌获取登陆认证信息
-        Authentication authentication=JwtTokenUtils.getAuthenticationFromToken(request);
+        Authentication authentication= JwtTokenUtils.getAuthenticationFromToken(request);
         //设置登陆认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
@@ -77,14 +78,14 @@ public class SecurityUtils {
      * @return
      */
     public static JwtAuthenticationToken login(HttpServletRequest request, String username, String password,
-                                              AuthenticationManager authenticationManager){
-        JwtAuthenticationToken token = new JwtAuthenticationToken(username,password);
+                                               AuthenticationManager authenticationManager){
+        JwtAuthenticationToken token = new JwtAuthenticationToken(username, password);
         token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        //执行登陆认证过程
+        // 执行登录认证过程
         Authentication authentication = authenticationManager.authenticate(token);
-        //认证成功，存储认证信息到上下文
+        // 认证成功存储认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        //生成令牌并返回客户端
+        // 生成令牌并返回给客户端
         token.setToken(JwtTokenUtils.generateToken(authentication));
         return token;
     }

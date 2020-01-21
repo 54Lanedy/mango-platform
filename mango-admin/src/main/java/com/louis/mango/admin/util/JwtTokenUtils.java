@@ -1,5 +1,7 @@
-package com.louis.mango.admin.security;
+package com.louis.mango.admin.util;
 
+import com.louis.mango.admin.security.GrantedAuthorityImpl;
+import com.louis.mango.admin.security.JwtAuthenticationToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

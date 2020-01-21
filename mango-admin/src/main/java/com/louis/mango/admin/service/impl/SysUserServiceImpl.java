@@ -1,7 +1,9 @@
 package com.louis.mango.admin.service.impl;
 
 import com.louis.mango.admin.dao.SysUserMapper;
+import com.louis.mango.admin.model.SysMenu;
 import com.louis.mango.admin.model.SysUser;
+import com.louis.mango.admin.service.SysMenuService;
 import com.louis.mango.admin.service.SysUserService;
 import com.louis.mango.common.utils.PoiUtils;
 import com.louis.mango.core.page.MybatisPageHelper;
@@ -29,6 +31,8 @@ import java.util.Set;
 public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private SysMenuService sysMenuService;
 
     @Override
     public List<SysUser> findAll() {
@@ -37,24 +41,19 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUser findByName(String username) {
-        //测试,模拟数据
-        SysUser user = new SysUser();
-        user.setId(1L);
-        user.setName(username);
-        String password = new BCryptPasswordEncoder().encode("123");
-        user.setPassword(password);
-        return user;
+        return sysUserMapper.findByName(username);
     }
 
     @Override
-    public Set<String> findPermissions(String name) {
-        //测试,模拟数据
-        Set<String> permissions = new HashSet<>();
-        permissions.add("sys:user:view");
-        permissions.add("sys:user:add");
-        permissions.add("sys:user:edit");
-        permissions.add("sys:user:delete");
-        return permissions;
+    public Set<String> findPermissions(String userName) {
+        Set<String> perms = new HashSet<>();
+        List<SysMenu> sysMenus = sysMenuService.findByUser(userName);
+        for(SysMenu sysMenu:sysMenus) {
+            if(sysMenu.getPerms() != null && !"".equals(sysMenu.getPerms())) {
+                perms.add(sysMenu.getPerms());
+            }
+        }
+        return perms;
     }
 
     @Override

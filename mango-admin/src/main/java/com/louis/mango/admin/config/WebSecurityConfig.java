@@ -33,9 +33,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //spring security 版本在5.0后就要加个PasswordEncoder了
-        //There is no PasswordEncoder mapped for the id "null"解决方法
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        //spring security 版本在5.0后如果想使用security默认的密码验证逻辑，必须有一个passwordEncoder Bean，否则将出现“There is no PasswordEncoder mapped for the id "null"”异常
+//        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        //使用自定义的密码验证逻辑
+        auth.authenticationProvider(new JwtAuthenticationProvider(userDetailsService));
     }
 
     @Override
