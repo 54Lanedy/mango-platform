@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="operation" property="operation" jdbcType="VARCHAR" />
-    <result column="mehtod" property="mehtod" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
     <result column="params" property="params" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="BIGINT" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
@@ -15,7 +15,7 @@
     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, operation, mehtod, params, time, ip, create_by, create_time, last_update_by, 
+    id, user_name, operation, method, params, time, ip, create_by, create_time, last_update_by,
     last_update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -30,11 +30,11 @@
   </delete>
   <insert id="insert" parameterType="com.louis.mango.admin.model.SysLog" >
     insert into sys_log (id, user_name, operation, 
-      mehtod, params, time, 
+      method, params, time, 
       ip, create_by, create_time, 
       last_update_by, last_update_time)
     values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR}, 
-      #{mehtod,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{time,jdbcType=BIGINT}, 
+      #{method,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{time,jdbcType=BIGINT}, 
       #{ip,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{lastUpdateBy,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -50,8 +50,8 @@
       <if test="operation != null" >
         operation,
       </if>
-      <if test="mehtod != null" >
-        mehtod,
+      <if test="method != null" >
+        method,
       </if>
       <if test="params != null" >
         params,
@@ -85,8 +85,8 @@
       <if test="operation != null" >
         #{operation,jdbcType=VARCHAR},
       </if>
-      <if test="mehtod != null" >
-        #{mehtod,jdbcType=VARCHAR},
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
       </if>
       <if test="params != null" >
         #{params,jdbcType=VARCHAR},
@@ -120,8 +120,8 @@
       <if test="operation != null" >
         operation = #{operation,jdbcType=VARCHAR},
       </if>
-      <if test="mehtod != null" >
-        mehtod = #{mehtod,jdbcType=VARCHAR},
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
       </if>
       <if test="params != null" >
         params = #{params,jdbcType=VARCHAR},
@@ -151,7 +151,7 @@
     update sys_log
     set user_name = #{userName,jdbcType=VARCHAR},
       operation = #{operation,jdbcType=VARCHAR},
-      mehtod = #{mehtod,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
       params = #{params,jdbcType=VARCHAR},
       time = #{time,jdbcType=BIGINT},
       ip = #{ip,jdbcType=VARCHAR},
@@ -161,4 +161,17 @@
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_log
+    </select>
+    <select id="findPageByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <bind name="pattern" value="'%' + _parameter.userName + '%'" />
+        select
+        <include refid="Base_Column_List" />
+        from sys_log
+        where user_name like #{pattern}
+    </select>
 </mapper>

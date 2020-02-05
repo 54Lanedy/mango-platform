@@ -22,7 +22,7 @@
     from sys_dept
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sys_dept
     where id = #{id,jdbcType=BIGINT}
   </delete>
@@ -139,4 +139,14 @@
       del_flag = #{delFlag,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_dept
+    </select>
+    <select id="findPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_dept
+    </select>
 </mapper>

@@ -36,13 +36,13 @@ public class SysDictController {
     public HttpResult delete(@RequestBody List<SysDict> records){
         return HttpResult.ok(sysDictService.delete(records));
     }
-    @PreAuthorize("hasAuthority('sys:dict:view')")
+//    @PreAuthorize("hasAuthority('sys:dict:view')")
     @PostMapping(value = "/findPage")
     public HttpResult findPage(@RequestBody PageRequest pageRequest){
         return HttpResult.ok(sysDictService.findPage(pageRequest));
     }
 
-    @PreAuthorize("hasAuthority('sys:dict:view')")
+//    @PreAuthorize("hasAuthority('sys:dict:view')")
     @PostMapping(value = "/findByLabel")
     public HttpResult findByLabel(@RequestBody String label){
         return HttpResult.ok(sysDictService.findByLabel(label));

@@ -18,7 +18,13 @@ public interface SysMenuMapper {
 
     int updateByPrimaryKey(SysMenu record);
 
+    List<SysMenu> findPage();
+
+    List<SysMenu> findPageByName(@Param(value="name") String name);
+
     List<SysMenu> findAll();
 
     List<SysMenu> findByUserName(@Param(value="userName") String userName);
+
+    List<SysMenu> findRoleMenus(@Param(value="roleId") Long roleId);
 }

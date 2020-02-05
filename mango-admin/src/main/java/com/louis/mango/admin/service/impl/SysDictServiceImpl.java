@@ -8,6 +8,7 @@ import com.louis.mango.core.page.PageRequest;
 import com.louis.mango.core.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -55,8 +56,8 @@ public class SysDictServiceImpl implements SysDictService {
 
     @Override
     public PageResult findPage(PageRequest pageRequest) {
-        Object label = pageRequest.getParam("label");
-        if (label != null) {
+        Object label = pageRequest.getParamValue("label");
+        if (!StringUtils.isEmpty(label)) {
             return MybatisPageHelper.findPage(pageRequest,sysDictMapper,"findPageByLabel",label);
         }
         return MybatisPageHelper.findPage(pageRequest,sysDictMapper);

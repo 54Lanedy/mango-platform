@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -42,9 +43,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //禁用csrf，由于使用的是jwt，这里不需要csrf
-        http.cors().and().csrf().disable().authorizeRequests()
-            //跨域预检请求
+        http.cors().and().csrf().disable()
+                //基于token，不需要session
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+            //跨域预检请求 TODO OPTIONS无法解决跨域问题,403
             .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+            .antMatchers(HttpMethod.POST,"/**").permitAll()
+            .antMatchers(HttpMethod.GET,"/**").permitAll()
             //web jars
             .antMatchers("/webjars/**").permitAll()
             //查看SQL监控（druid）

@@ -38,4 +38,10 @@ public class SysUserController {
         File file = sysUserService.createUserExcelFile(pageRequest);
         FileUtils.downloadFile(res,file,file.getName());
     }
+
+//    @PreAuthorize("hasAuthority('sys:user:view')")
+    @GetMapping(value="/findPermissions")
+    public HttpResult findPermissions(@RequestParam String name) {
+        return HttpResult.ok(sysUserService.findPermissions(name));
+    }
 }
