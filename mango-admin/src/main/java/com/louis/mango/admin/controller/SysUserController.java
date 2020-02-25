@@ -1,6 +1,10 @@
 package com.louis.mango.admin.controller;
 
+import ch.qos.logback.core.net.AbstractSSLSocketAppender;
+import com.louis.mango.admin.constant.SysConstants;
+import com.louis.mango.admin.model.SysUser;
 import com.louis.mango.admin.service.SysUserService;
+import com.louis.mango.admin.util.PasswordUtils;
 import com.louis.mango.common.utils.FileUtils;
 import com.louis.mango.core.http.HttpResult;
 import com.louis.mango.core.page.PageRequest;
@@ -20,6 +24,38 @@ import java.io.File;
 public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
+
+//    @PreAuthorize("hasAuthority('sys:user:add') AND hasAuthority('sys:user:edit')")
+    @PostMapping("/save")
+    public HttpResult save(@RequestBody SysUser record) {
+        SysUser user = sysUserService.findById(record.getId());
+        if (user != null) {
+            //超级管理员不能修改
+            if (SysConstants.ADMIN.equalsIgnoreCase(user.getName())) {
+                return HttpResult.error("超级管理员不允许修改");
+            }
+        }
+        if (record.getPassword() != null) {
+            String salt = PasswordUtils.getSalt();
+            if (user == null) {
+                //新增用户
+                if (sysUserService.findByName(record.getName()) != null) {
+                    return HttpResult.error("用户名已存在！");
+                }
+                String password = PasswordUtils.encode(record.getPassword(), salt);
+                record.setPassword(password);
+                record.setSalt(salt);
+            }else{
+                //修改用户信息,且修改了密码
+                if (!record.getPassword().equals(user.getPassword())) {
+                    String password = PasswordUtils.encode(record.getPassword(), salt);
+                    record.setPassword(password);
+                    record.setSalt(salt);
+                }
+            }
+        }
+        return HttpResult.ok(sysUserService.save(record));
+    }
 
     @GetMapping(value = "/findAll")
     @PreAuthorize("hasAuthority('sys:user:view')")

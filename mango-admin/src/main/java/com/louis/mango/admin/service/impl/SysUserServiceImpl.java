@@ -1,8 +1,10 @@
 package com.louis.mango.admin.service.impl;
 
+import com.louis.mango.admin.dao.SysDeptMapper;
+import com.louis.mango.admin.dao.SysRoleMapper;
 import com.louis.mango.admin.dao.SysUserMapper;
-import com.louis.mango.admin.model.SysMenu;
-import com.louis.mango.admin.model.SysUser;
+import com.louis.mango.admin.dao.SysUserRoleMapper;
+import com.louis.mango.admin.model.*;
 import com.louis.mango.admin.service.SysMenuService;
 import com.louis.mango.admin.service.SysUserService;
 import com.louis.mango.common.utils.PoiUtils;
@@ -18,10 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by liyue
@@ -33,6 +32,12 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private SysMenuService sysMenuService;
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
+    @Autowired
+    private SysDeptMapper sysDeptMapper;
 
     @Override
     public List<SysUser> findAll() {
@@ -54,6 +59,11 @@ public class SysUserServiceImpl implements SysUserService {
             }
         }
         return perms;
+    }
+
+    @Override
+    public List<SysUserRole> findUserRoles(Long userId) {
+        return sysUserRoleMapper.findUserRoles(userId);
     }
 
     @Override
@@ -118,26 +128,84 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public int save(SysUser record) {
-        return 0;
+        if (record.getId() == null || record.getId() == 0) {
+            return sysUserMapper.insertSelective(record);
+        }
+        return sysUserMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
     public int delete(SysUser record) {
-        return 0;
+        return sysUserMapper.deleteByPrimaryKey(record.getId());
     }
 
     @Override
     public int delete(List<SysUser> records) {
-        return 0;
+        for (SysUser record : records) {
+            delete(record);
+        }
+        return 1;
     }
 
     @Override
     public SysUser findById(Long id) {
-        return null;
+        return sysUserMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public PageResult findPage(PageRequest pageRequest) {
-        return MybatisPageHelper.findPage(pageRequest,sysUserMapper);
+        PageResult pageResult = null;
+        Object name = pageRequest.getParamValue("name");
+        Object email = pageRequest.getParamValue("email");
+        if(name != null) {
+            if(email != null) {
+                pageResult = MybatisPageHelper.findPage(pageRequest, sysUserMapper, "findPageByNameAndEmail", name, email);
+            } else {
+                pageResult = MybatisPageHelper.findPage(pageRequest, sysUserMapper, "findPageByName", name);
+            }
+        } else {
+            pageResult = MybatisPageHelper.findPage(pageRequest, sysUserMapper);
+        }
+        // 加载用户角色信息
+        findUserRoles(pageResult);
+        return pageResult;
+    }
+
+    /**
+     * 加载用户角色
+     * @param pageResult
+     */
+    private void findUserRoles(PageResult pageResult) {
+        List<?> content = pageResult.getContent();
+        for (Object object : content) {
+            SysUser sysUser = (SysUser) object;
+            List<SysUserRole> userRoles = findUserRoles(sysUser.getId());
+            sysUser.setUserRoles(userRoles);
+            sysUser.setRoleNames(getRoleNames(userRoles));
+            sysUser.setDeptName(getDeptName(sysUser.getDeptId()));
+        }
+    }
+
+    //获取用户的角色名称
+    private String getRoleNames(List<SysUserRole> userRoles) {
+        StringBuilder sb = new StringBuilder();
+        for(Iterator<SysUserRole> iter = userRoles.iterator(); iter.hasNext();) {
+            SysUserRole userRole = iter.next();
+            SysRole sysRole = sysRoleMapper.selectByPrimaryKey(userRole.getRoleId());
+            if(sysRole == null) {
+                continue ;
+            }
+            sb.append(sysRole.getRemark());
+            if(iter.hasNext()) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
+    }
+
+    //获取用户的部门名称
+    private String getDeptName(Long deptId) {
+        SysDept dept = sysDeptMapper.selectByPrimaryKey(deptId);
+        return dept.getName();
     }
 }
